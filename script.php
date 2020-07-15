@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 $categorias = [];
 $categorias[] ='infantil';
 $categorias[] ='adolescente';
@@ -15,40 +17,57 @@ var_dump($nome);
 var_dump($idade);
 
 if (empty($nome)){
-    echo "o nome nao pode ser vazio";
-    return;
+    $_SESSION['mensagem-de-erro' ] ='O nome não pode ser vazio! de jeito nenhum';
+    header('location: index.php');
+    
 }
 
 
 
-if (strlen($nome)>40){
-    echo "o nome é muito extenso";
+else if (strlen($nome)>40){
+    $_SESSION['mensagem-de-erro' ] ='o nome é muito extenso';
+    header('location: index.php');
     return;
 }
-if (strlen($nome)<3){
-    echo "o nome deve ter mais de 3 caracteres";
+else if (strlen($nome)<3){
+    $_SESSION['mensagem-de-erro' ] = 'o nome deve ter mais de 3 caracteres';
+    header('location: index.php');
     return;
 }
 
-if (!is_numeric($idade)){
-    echo "Informe um numero para idade";
+else if (!is_numeric($idade)){
+    $_SESSION['mensagem-de-erro' ] = 'Informe um numero para idade';
+    header('location: index.php');
     return;
 }
 
 if ( $idade <=12){
     for ($i=0; $i<=count($categorias);$i++) {
         if($categorias[$i]=='infantil')
-        echo "O nadador ", $nome, " compete na categoria ",$categorias[$i];
+        {
+            $_SESSION['mensagem-de-sucesso' ] = "O nadador ". $nome. " compete na categoria ".$categorias[$i];
+        header('location: index.php');
+        return;       
+        }
+
     }
     
 } else if ($idade >=13 && $idade <=18){
     for ($i=0; $i<=count($categorias);$i++) {
         if($categorias[$i]=='adolescente')
-        echo "O nadador ", $nome, " compete na categoria ",$categorias[$i];
+        {
+            $_SESSION['mensagem-de-sucesso' ] = "O nadador ". $nome. " compete na categoria ".$categorias[$i];
+            header('location: index.php');
+            return;       
+        }
     }
 } else {
     for ($i=0; $i<=count($categorias);$i++) {
         if($categorias[$i]=='adulto')
-        echo "O nadador ", $nome, " compete na categoria ",$categorias[$i];
+        {
+            $_SESSION['mensagem-de-sucesso' ] = "O nadador ". $nome. " compete na categoria ".$categorias[$i];
+        header('location: index.php');
+        return;       
+        }
     }
 }
